@@ -9,16 +9,16 @@ import com.example.demo.model.*;
 @Entity
 @Setter @Getter
 @NoArgsConstructor
-@Table(name = "historial_cursos")
-public class HistorialCursos implements Observador<Curso> {
+@Table(name = "historial_profesores")
+public class HistorialProfesores implements Observador<Profesor> {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "id_curso", referencedColumnName = "id", nullable = false)
-    private Curso curso;
+    @JoinColumn(name = "id_profesor", referencedColumnName = "id", nullable = false)
+    private Profesor profesor;
 
     @Column(name = "fecha_cambio")
     private Timestamp fechaCambio;
@@ -27,9 +27,10 @@ public class HistorialCursos implements Observador<Curso> {
     private String descripcion;
 
     @Override
-    public void actualizar(Curso curso, String mensaje) {
-        this.curso = curso;
+    public void actualizar(Profesor profesor, String mensaje) {
+        this.profesor = profesor;
         this.descripcion = mensaje;
         this.fechaCambio = Timestamp.from(Instant.now());
     }
+
 }

@@ -12,7 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 @Setter @Getter
 @NoArgsConstructor
 @Table(name = "curso")
-public class Curso implements Objetivo {
+public class Curso implements Objetivo<Curso> {
 
     @Autowired
     private HistorialCursosService historialCursosService;
@@ -31,7 +31,8 @@ public class Curso implements Objetivo {
     @Column(name = "activo", nullable = false)
     private Boolean activo;
 
-    private List<Observador> observadores = new ArrayList<>();
+    @Transient
+    private List<Observador<Curso>> observadores = new ArrayList<>();
 
     
     public Curso(String nombre, Programa programa, Boolean activo) {
@@ -40,21 +41,23 @@ public class Curso implements Objetivo {
         this.activo = activo;
     }
 
-    public void agregarObservador(Observador observador) {
+    public void agregarObservador(Observador<Curso> observador) {
         if (!this.observadores.contains(observador)) {
             this.observadores.add(observador);
         }
     }
 
-    public void eliminarObservador(Observador observador) {
+    public void eliminarObservador(Observador<Curso> observador) {
         this.observadores.remove(observador);
     }
 
     public void notificarObservadores(String mensaje) {
         if (!observadores.isEmpty()) {
-            for (Observador observador : observadores) {
+            for (Observador<Curso> observador : observadores) {
                 observador.actualizar(this, mensaje);
-                historialCursosService.guardarHistorial(observador);
+                if (observador instanceof HistorialCursos) {
+                    historialCursosService.guardarHistorial((HistorialCursos) observador);
+                }
             }
         }
     }

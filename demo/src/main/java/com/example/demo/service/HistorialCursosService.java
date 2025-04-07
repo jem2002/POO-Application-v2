@@ -11,7 +11,7 @@ public class HistorialCursosService {
     @Autowired
     private HistorialCursosRepository historialCursosRepository;
 
-    public void guardarHistorial(Observador observador) {
-        historialCursosRepository.save(observador);
+    public void guardarHistorial(HistorialCursos historialCursos) {
+        historialCursosRepository.save(historialCursos);
     }
 }

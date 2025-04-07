@@ -1,12 +1,9 @@
 package com.example.demo.observer;
 
-import org.springframework.stereotype.Service;
+public interface Objetivo<T> {
 
-@Service
-public interface Objetivo {
-
-    void agregarObservador(Observador observador);
-    void eliminarObservador(Observador observador);
+    void agregarObservador(Observador<T> observador);
+    void eliminarObservador(Observador<T> observador);
     void notificarObservadores(String mensaje);
 
 }
