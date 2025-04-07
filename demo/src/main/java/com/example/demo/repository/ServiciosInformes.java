@@ -4,7 +4,7 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 @Service
-public interface ServiciosInformes {
+public interface ServiciosInformes<T> {
     public Integer cantidadActual();
-    public List<String> imprimirListado();
+    public List<T> imprimirListado();
 }
