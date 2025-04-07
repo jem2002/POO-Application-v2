@@ -33,6 +33,32 @@ public class Estudiante extends Persona implements Objetivo<Estudiante> {
     @Transient
     private List<Observador<Estudiante>> observadores = new ArrayList<>();
 
+    public Estudiante(String nombres, String apellidos, String email, Programa programa, Long codigo, Boolean activo, Double promedio) {
+        this.nombres = nombres;
+        this.apellidos = apellidos;
+        this.email = email;
+        this.programa = programa;
+        this.codigo = codigo;
+        this.activo = activo;
+        this.promedio = promedio;
+        notificarObservadores("Estudiante creado: " + toString());
+    }
+
+    public void modificarEstadoEstudiante(Boolean estado) {
+        this.activo = estado;
+        notificarObservadores("El estado del estudiante " + id + " ha sido actualizado: " + toString());
+    }
+
+    public void modificarPromedioEstudiante(Double promedio) {
+        this.promedio = promedio;
+        notificarObservadores("El promedio del estudiante " + id + " ha sido actualizado: " + toString());
+    }
+
+    public void modificarProgramaEstudiante(Programa programa) {
+        this.programa = programa;
+        notificarObservadores("El programa del estudiante " + id + " ha sido actualizado: " + toString());
+    }
+
     public void agregarObservador(Observador<Estudiante> observador) {
         if (!this.observadores.contains(observador)) {
             this.observadores.add(observador);
@@ -54,21 +80,21 @@ public class Estudiante extends Persona implements Objetivo<Estudiante> {
         }
     }
 
-    public Estudiante(String nombres, String apellidos, String email, Long codigo, Boolean activo, Double promedio, Programa programa) {
-        super(nombres, apellidos, email);
-        this.codigo = codigo;
-        this.activo = activo;
-        this.promedio = promedio;
-        this.programa = programa;
+    public void eliminarEstudiante(Boolean estado) {
+        this.activo = estado;
+        notificarObservadores("El estado del estudiante " + id + " ha sido actualizado: " + toString());
     }
 
     @Override
     public String toString() {
-        return super.toString() + " Estudiante{" +
-                "codigo=" + codigo +
+        return "Estudiante{" +
+                "id=" + id +
+                ", nombres='" + nombres + '\'' +
+                ", apellidos='" + apellidos + '\'' +
+                ", email='" + email + '\'' +
+                ", codigo=" + codigo +
                 ", activo=" + activo +
                 ", promedio=" + promedio +
-                ", programa=" + programa.getNombre() +
                 '}';
     }
 

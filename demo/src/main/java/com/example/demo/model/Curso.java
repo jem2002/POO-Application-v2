@@ -39,6 +39,22 @@ public class Curso implements Objetivo<Curso> {
         this.nombre = nombre;
         this.programa = programa;
         this.activo = activo;
+        notificarObservadores("Curso creado: " + toString());
+    }
+
+    public void modificarNombreCurso(String nombre) {
+        this.nombre = nombre;
+        notificarObservadores("El nombre del curso " + id + " ha sido modificado: " + toString());
+    }
+
+    public void modificarProgramaCurso(Programa programa) {
+        this.programa = programa;
+        notificarObservadores("El programa del curso " + id + " ha sido modificado: " + toString());
+    }
+
+    public void modificarEstadoCurso(Boolean activo) {
+        this.activo = activo;
+        notificarObservadores("El estado del curso " + id + " ha sido modificado: " + toString());
     }
 
     public void agregarObservador(Observador<Curso> observador) {

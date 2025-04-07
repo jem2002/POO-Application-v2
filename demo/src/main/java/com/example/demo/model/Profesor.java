@@ -23,6 +23,20 @@ public class Profesor extends Persona implements Objetivo<Profesor> {
     @Transient
     private List<Observador<Profesor>> observadores = new ArrayList<>();
 
+    public Profesor(String nombre, String apellidos, String email, String tipoContrato) {
+        this.nombres = nombre;
+        this.apellidos = apellidos;
+        this.email = email;
+        this.tipoContrato = tipoContrato;
+        notificarObservadores("Se ha creado un nuevo profesor: " + this.toString());
+    }
+
+    public void setTipoContrato(String tipoContrato) {
+        this.tipoContrato = tipoContrato;
+        notificarObservadores("Se ha actualizado el tipo de contrato del profesor: " + this.toString());
+    }
+
+
     public void agregarObservador(Observador<Profesor> observador) {
         if (!this.observadores.contains(observador)) {
             this.observadores.add(observador);
@@ -44,15 +58,15 @@ public class Profesor extends Persona implements Objetivo<Profesor> {
         }
     }
 
-    public Profesor(String nombre, String apellidos, String email, String tipoContrato) {
-        super(nombre, apellidos, email);
-        this.tipoContrato = tipoContrato;
-    }
-
     @Override
     public String toString() {
-        return super.toString() + " Profesor{" +
+        return "Profesor{" +
                 "tipoContrato='" + tipoContrato + '\'' +
+                ", observadores=" + observadores +
+                ", id=" + id +
+                ", nombre='" + nombres + '\'' +
+                ", apellidos='" + apellidos + '\'' +
+                ", email='" + email + '\'' +
                 '}';
     }
 

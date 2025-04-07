@@ -12,16 +12,16 @@ public class Persona {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    protected Long id;
 
     @Column(name = "nombres", nullable = false, length = 50)
-    private String nombres;
+    protected String nombres;
 
     @Column(name = "apellidos", nullable = false, length = 50)
-    private String apellidos;
+    protected String apellidos;
 
     @Column(name = "email", nullable = false, length = 50)
-    private String email;
+    protected String email;
 
     public Persona(String nombres, String apellidos, String email) {
         this.nombres = nombres;
