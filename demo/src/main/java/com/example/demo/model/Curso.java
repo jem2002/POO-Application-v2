@@ -5,11 +5,17 @@ import java.util.*;
 import jakarta.persistence.*;
 import lombok.*;
 
+import com.example.demo.service.HistorialCursosService;
+import org.springframework.beans.factory.annotation.Autowired;
+
 @Entity
 @Setter @Getter
 @NoArgsConstructor
 @Table(name = "curso")
 public class Curso implements Objetivo {
+
+    @Autowired
+    private HistorialCursosService historialCursosService;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -25,14 +31,13 @@ public class Curso implements Objetivo {
     @Column(name = "activo", nullable = false)
     private Boolean activo;
 
-    private List<Observador> observadores;
+    private List<Observador> observadores = new ArrayList<>();
 
     
     public Curso(String nombre, Programa programa, Boolean activo) {
         this.nombre = nombre;
         this.programa = programa;
         this.activo = activo;
-        this.observadores = new ArrayList<>();
     }
 
     public void agregarObservador(Observador observador) {
@@ -49,6 +54,7 @@ public class Curso implements Objetivo {
         if (!observadores.isEmpty()) {
             for (Observador observador : observadores) {
                 observador.actualizar(this, mensaje);
+                historialCursosService.guardarHistorial(observador);
             }
         }
     }

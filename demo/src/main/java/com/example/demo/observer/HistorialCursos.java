@@ -4,7 +4,6 @@ import jakarta.persistence.*;
 import lombok.*;
 import java.sql.Timestamp;
 import java.time.Instant;
-
 import com.example.demo.model.*;
 
 @Entity
@@ -32,6 +31,5 @@ public class HistorialCursos implements Observador {
         this.curso = curso;
         this.descripcion = mensaje;
         this.fechaCambio = Timestamp.from(Instant.now());
-        
     }
 }

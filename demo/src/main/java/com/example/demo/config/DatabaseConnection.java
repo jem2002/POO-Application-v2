@@ -3,9 +3,7 @@ package com.example.demo.config;
 import java.sql.Connection;
 import java.sql.SQLException;
 import javax.sql.DataSource;
-import org.springframework.stereotype.Component;
 
-@Component
 public class DatabaseConnection {
     private static volatile DatabaseConnection instance;
     private final DataSource dataSource;
