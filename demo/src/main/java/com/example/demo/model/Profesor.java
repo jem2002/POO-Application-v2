@@ -5,17 +5,12 @@ import java.util.*;
 import jakarta.persistence.*;
 import lombok.*;
 
-import com.example.demo.service.HistorialProfesoresService;
-import org.springframework.beans.factory.annotation.Autowired;
-
 @Entity
 @DiscriminatorValue("PROFESOR")
 @Setter @Getter
 @NoArgsConstructor
 @Table(name = "profesores")
 public class Profesor extends Persona implements Objetivo<Profesor> {
-    @Autowired
-    private HistorialProfesoresService historialProfesoresService;
 
     @Column(name = "tipo_contrato", nullable = false)
     private String tipoContrato;
@@ -28,14 +23,7 @@ public class Profesor extends Persona implements Objetivo<Profesor> {
         this.apellidos = apellidos;
         this.email = email;
         this.tipoContrato = tipoContrato;
-        notificarObservadores("Se ha creado un nuevo profesor: " + this.toString());
     }
-
-    public void setTipoContrato(String tipoContrato) {
-        this.tipoContrato = tipoContrato;
-        notificarObservadores("Se ha actualizado el tipo de contrato del profesor: " + this.toString());
-    }
-
 
     public void agregarObservador(Observador<Profesor> observador) {
         if (!this.observadores.contains(observador)) {
@@ -51,9 +39,6 @@ public class Profesor extends Persona implements Objetivo<Profesor> {
         if (!observadores.isEmpty()) {
             for (Observador<Profesor> observador : observadores) {
                 observador.actualizar(this, mensaje);
-                if (observador instanceof HistorialProfesores) {
-                    historialProfesoresService.guardarHistorial((HistorialProfesores) observador);
-                }
             }
         }
     }

@@ -27,4 +27,11 @@ public class Programa {
     @Column(name = "registro", nullable = false)
     private Date registro;
 
+    public Programa(Facultad facultad, String nombre, Integer duracion, Date registro) {
+        this.facultad = facultad;
+        this.nombre = nombre;
+        this.duracion = duracion;
+        this.registro = registro;
+    }
+
 }

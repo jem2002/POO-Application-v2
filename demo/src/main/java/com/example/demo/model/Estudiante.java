@@ -5,17 +5,12 @@ import java.util.*;
 import jakarta.persistence.*;
 import lombok.*;
 
-import com.example.demo.service.HistorialEstudiantesService;
-import org.springframework.beans.factory.annotation.Autowired;
-
 @Entity
 @DiscriminatorValue("ESTUDIANTE")
 @Setter @Getter
 @NoArgsConstructor
 @Table(name = "estudiantes")
 public class Estudiante extends Persona implements Objetivo<Estudiante> {
-    @Autowired
-    private HistorialEstudiantesService historialEstudiantesService;
 
     @ManyToOne
     @JoinColumn(name = "id_programa", referencedColumnName = "id", nullable = false)
@@ -41,22 +36,6 @@ public class Estudiante extends Persona implements Objetivo<Estudiante> {
         this.codigo = codigo;
         this.activo = activo;
         this.promedio = promedio;
-        notificarObservadores("Estudiante creado: " + toString());
-    }
-
-    public void modificarEstadoEstudiante(Boolean estado) {
-        this.activo = estado;
-        notificarObservadores("El estado del estudiante " + id + " ha sido actualizado: " + toString());
-    }
-
-    public void modificarPromedioEstudiante(Double promedio) {
-        this.promedio = promedio;
-        notificarObservadores("El promedio del estudiante " + id + " ha sido actualizado: " + toString());
-    }
-
-    public void modificarProgramaEstudiante(Programa programa) {
-        this.programa = programa;
-        notificarObservadores("El programa del estudiante " + id + " ha sido actualizado: " + toString());
     }
 
     public void agregarObservador(Observador<Estudiante> observador) {
@@ -73,16 +52,8 @@ public class Estudiante extends Persona implements Objetivo<Estudiante> {
         if (!observadores.isEmpty()) {
             for (Observador<Estudiante> observador : observadores) {
                 observador.actualizar(this, mensaje);
-                if (observador instanceof HistorialEstudiantes) {
-                    historialEstudiantesService.guardarHistorial((HistorialEstudiantes) observador);
-                }
             }
         }
-    }
-
-    public void eliminarEstudiante(Boolean estado) {
-        this.activo = estado;
-        notificarObservadores("El estado del estudiante " + id + " ha sido actualizado: " + toString());
     }
 
     @Override

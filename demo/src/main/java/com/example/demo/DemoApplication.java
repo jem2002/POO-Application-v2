@@ -1,42 +1,54 @@
 package com.example.demo;
 
-import com.example.demo.model.Profesor;
-import com.example.demo.model.Persona;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.example.demo.factory.EntidadFactory;
+import com.example.demo.factory.EntidadFactoryImpl;
+import com.example.demo.model.*;
+
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.domain.EntityScan;
 
-import jakarta.persistence.EntityManager;
-import jakarta.transaction.Transactional;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 @SpringBootApplication
+@EntityScan(basePackages = "com.example.demo.model")
 public class DemoApplication implements CommandLineRunner {
-
-    @Autowired
-    private EntityManager entityManager;
 
     public static void main(String[] args) {
         SpringApplication.run(DemoApplication.class, args);
     }
 
     @Override
-    @Transactional
     public void run(String... args) throws Exception {
-        // Crear instancias de Estudiante y Profesor
-        Profesor profesor = new Profesor("Ana", "Gómez", "ana.gomez@example.com", "Tiempo Completo");
+        EntidadFactory factory = new EntidadFactoryImpl();
 
-        // Guardar en la base de datos
-        entityManager.persist(profesor);
+        Map<String, Object> estudianteParams = new HashMap<>();
+        estudianteParams.put("nombre", "Juan");
+        estudianteParams.put("apellidos", "Martinez");
+        estudianteParams.put("email", "juan.ejemplo@unillanos.edu.co");
+        estudianteParams.put("programa", null); // Puedes reemplazar con un objeto Programa válido
+        estudianteParams.put("codigo", 123456789L);
+        estudianteParams.put("activo", true);
+        estudianteParams.put("promedio", 4.5);
+        Estudiante estudiante = (Estudiante) factory.crearEntidad("estudiante", estudianteParams);
 
-        // Recuperar todas las personas
-        List<Persona> personas = entityManager.createQuery("SELECT p FROM Persona p", Persona.class).getResultList();
+        Map<String, Object> profesorParams = new HashMap<>();
+        profesorParams.put("nombre", "Ana");
+        profesorParams.put("apellidos", "Gómez");
+        profesorParams.put("email", "ana.gomez@example.com");
+        profesorParams.put("tipoContrato", "Tiempo Completo");
+        Profesor profesor = (Profesor) factory.crearEntidad("profesor", profesorParams);
 
-        // Imprimir las personas recuperadas
-        System.out.println("Personas en la base de datos:");
-        for (Persona persona : personas) {
-            System.out.println(persona);
-        }
+        Map<String, Object> cursoParams = new HashMap<>();
+        cursoParams.put("nombre", "Matemáticas");
+        cursoParams.put("Programa", null); // Puedes reemplazar con un objeto Programa válido
+        cursoParams.put("activo", true);
+        Curso curso = (Curso) factory.crearEntidad("curso", cursoParams);
+
+        System.out.println(estudiante);
+        System.out.println(profesor);
+        System.out.println(curso);
     }
 }
