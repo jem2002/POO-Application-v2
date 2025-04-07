@@ -1,6 +1,5 @@
 package com.example.demo;
 
-import com.example.demo.model.Estudiante;
 import com.example.demo.model.Profesor;
 import com.example.demo.model.Persona;
 import org.springframework.beans.factory.annotation.Autowired;
